@@ -211,4 +211,19 @@ RSpec.describe 'merchant dashboard' do
       expect(page).to have_content("#{item_3.name} - Invoice ##{invoice_6.id} - #{date.strftime('%A, %B %d, %Y')}")
     end
   end
+
+  describe 'bulk discounts' do
+    it 'has a link to view all discounts' do
+      merchant = create(:merchant)
+      visit "/merchants/#{merchant.id}/dashboard"
+
+      within('#all-discounts') do
+        expect(page).to have_link("All discounts")
+
+        click_link("All discounts")
+
+        expect(current_path).to eq("/merchants/#{merchant.id}/bulk_discounts")
+      end
+    end
+  end
 end
