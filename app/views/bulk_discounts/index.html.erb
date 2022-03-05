@@ -1,0 +1,15 @@
+<h1><%= @merchant.name %>'s Discounts</h1>
+
+<% @merchant.bulk_discounts.each do |discount| %>
+  <section id="discount-<%=discount.id%>">
+    <h3>Discount <%= discount.id %></h3>
+    <p>Threshold: <%= discount.threshold %></p>
+    <p>Percent Discount: <%= discount.discount_percent %></p>
+    <p><%= link_to "More Info for Discount #{discount.id}", "/merchants/#{@merchant.id}/bulk_discounts/#{discount.id}" %></p>
+    <% end %>
+  </section>
+
+<h3>Upcoming Holidays</h3>
+  <% @holidays.each do |holiday| %>
+  <li><%= holiday.name %>: <%= holiday.date %></li>
+<% end %>
