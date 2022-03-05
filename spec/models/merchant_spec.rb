@@ -8,6 +8,7 @@ RSpec.describe Merchant, type: :model do
   describe 'relationships' do
     it { should have_many :items }
     it { should have_many(:invoice_items).through(:items) }
+    it { should have_many :bulk_discounts }
   end
 
   before(:each) do
@@ -139,8 +140,8 @@ RSpec.describe Merchant, type: :model do
         expect(favorite_customers).to eq([customer_6.first_name, customer_4.first_name, customer_5.first_name])
       end
     end
-    describe '.items_ready_to_ship' do 
-      it 'returns items that have been ordered but not shipped as well as invoice that ordered item' do 
+    describe '.items_ready_to_ship' do
+      it 'returns items that have been ordered but not shipped as well as invoice that ordered item' do
         merchant = create(:merchant)
         item_1 = create(:item, merchant_id: merchant.id, name: "Item1")
         item_2 = create(:item, merchant_id: merchant.id, name: "Item2")
