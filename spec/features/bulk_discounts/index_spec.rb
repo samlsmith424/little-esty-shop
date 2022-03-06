@@ -11,41 +11,53 @@ RSpec.describe 'merchant bulk discounts index page' do
     visit merchant_bulk_discounts_path(@merchant.id)
   end
 
-  around(:each) do |test|
-    VCR.use_cassette('holiday api', &test)
-  end
+  # around(:each) do |test|
+  #   VCR.use_cassette('holiday api', &test)
+  # end
 
-  it 'displays all bulk discounts including their percentage and quantity thresholds' do
-    expect(page).to have_content("#{@merchant.name}'s Discounts")
+    it 'displays all bulk discounts including their percentage and quantity thresholds' do
+      expect(page).to have_content("#{@merchant.name}'s Discounts")
 
-    within("#discount-#{@bulk_disc_1.id}") do
-      expect(page).to have_content(@bulk_disc_1.threshold)
-      expect(page).to have_content(@bulk_disc_1.discount_percent)
+      within("#discount-#{@bulk_disc_1.id}") do
+        expect(page).to have_content(@bulk_disc_1.threshold)
+        expect(page).to have_content(@bulk_disc_1.discount_percent)
+      end
+
+      within("#discount-#{@bulk_disc_2.id}") do
+        expect(page).to have_content(@bulk_disc_2.threshold)
+        expect(page).to have_content(@bulk_disc_2.discount_percent)
+      end
+
+      within("#discount-#{@bulk_disc_3.id}") do
+        expect(page).to have_content(@bulk_disc_3.threshold)
+        expect(page).to have_content(@bulk_disc_3.discount_percent)
+      end
     end
 
-    within("#discount-#{@bulk_disc_2.id}") do
-      expect(page).to have_content(@bulk_disc_2.threshold)
-      expect(page).to have_content(@bulk_disc_2.discount_percent)
+    it 'each bulk discount has a link to its show page' do
+      within("#discount-#{@bulk_disc_1.id}") do
+        expect(page).to have_link("More Info for Discount #{@bulk_disc_1.id}")
+        click_link("More Info for Discount #{@bulk_disc_1.id}")
+        expect(current_path).to eq("/merchants/#{@merchant.id}/bulk_discounts/#{@bulk_disc_1.id}")
+      end
     end
 
-    within("#discount-#{@bulk_disc_3.id}") do
-      expect(page).to have_content(@bulk_disc_3.threshold)
-      expect(page).to have_content(@bulk_disc_3.discount_percent)
+    it 'can list the name and date of the next 3 upcoming US holidays' do
+
+      expect(page).to have_content("Good Friday")
+      expect(page).to have_content("Memorial Day")
+      expect(page).to have_content("Juneteenth")
     end
-  end
 
-  it 'each bulk discount has a link to its show page' do
-    within("#discount-#{@bulk_disc_1.id}") do
-      expect(page).to have_link("More Info for Discount #{@bulk_disc_1.id}")
-      click_link("More Info for Discount #{@bulk_disc_1.id}")
-      expect(current_path).to eq("/merchants/#{@merchant.id}/bulk_discounts/#{@bulk_disc_1.id}")
+  describe 'creating new discounts' do
+    it 'has a link to create a new bulk discount' do
+
+    within("#links") do
+      expect(page).to have_link("Create a New Discount")
+      click_link("Create a New Discount")
     end
-  end
-
-  it 'can list the name and date of the next 3 upcoming US holidays' do
-
-    expect(page).to have_content("Good Friday")
-    expect(page).to have_content("Memorial Day")
-    expect(page).to have_content("Juneteenth")
+    
+    expect(current_path).to eq("/merchants/#{@merchant.id}/bulk_discounts/new")
+    end
   end
 end
