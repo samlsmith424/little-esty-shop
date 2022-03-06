@@ -4,6 +4,7 @@ RSpec.describe 'Item Index page' do
   before(:each) do
     @merchant_1 = create(:merchant)
   end
+  
   it 'will have a link on the index page that will redirect it to new item form' do
     visit "/merchants/#{@merchant_1.id}/merchant_items"
     click_link('Create Item')
