@@ -113,7 +113,7 @@ RSpec.describe 'merchants invoices show page' do
   end
 
   it 'shows the total revenue for the merchant' do
-    # add another merchant 
+    # add another merchant
       merchant_1 = create(:merchant)
       customer_1 = create(:customer)
       item_1 = create(:item, merchant_id: merchant_1.id)
@@ -130,7 +130,7 @@ RSpec.describe 'merchants invoices show page' do
     end
   end
 
-  it 'shows the total discounted revenue for the merchant' do
+  # it 'shows the total discounted revenue for the merchant' do
 
-  end
-end
+# end
+# end

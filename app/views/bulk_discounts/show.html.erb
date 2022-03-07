@@ -3,3 +3,5 @@
 <h3>Discount Information</h3>
 <p>Threshold: <%= @discount.threshold %></p>
 <p>Discount Percent: <%= @discount.discount_percent %></p>
+
+<%= link_to "Edit Discount #{@discount.id}", "/merchants/#{@merchant.id}/bulk_discounts/#{@discount.id}/edit" %>

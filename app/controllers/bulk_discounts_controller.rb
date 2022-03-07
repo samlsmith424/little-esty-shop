@@ -9,6 +9,11 @@ class BulkDiscountsController < ApplicationController
     @discount = BulkDiscount.find(params[:id])
   end
 
+  def edit
+    @merchant = Merchant.find(params[:merchant_id])
+    @discount = BulkDiscount.find(params[:id])
+  end
+
   def new
     @merchant = Merchant.find(params[:merchant_id])
   end
@@ -20,6 +25,19 @@ class BulkDiscountsController < ApplicationController
       redirect_to merchant_bulk_discounts_path(merchant.id), notice: "Save successful."
     else
       redirect_to new_merchant_bulk_discount_path(merchant.id), notice: "All categories must be filled out."
+    end
+  end
+
+  def update
+    merchant = Merchant.find(params[:merchant_id])
+    discount = BulkDiscount.find(params[:id])
+    discount.update(bulk_discount_params)
+    if discount.save
+      # redirect_to "merchants/#{merchant.id}/bulk_discounts/#{discount.id}", notice: "Edit successful"
+      redirect_to merchant_bulk_discounts_path(params[:merchant_id], discount), notice: "Edit successful"
+    else
+      # redirect_to merchant_bulk_discounts_edit_path(params[:merchant_id], discount), notice: "Incorrect input"
+      redirect_to "/merchants/#{merchant.id}/bulk_discounts/#{discount.id}/edit", notice: "Incorrect input"
     end
   end
 
