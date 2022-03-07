@@ -19,4 +19,5 @@ Rails.application.routes.draw do
   resources :github_api, only: [:index]
 
   post "/merchants/:id/bulk_discounts/new", to: "bulk_discounts#create"
+  delete "/merchants/:id/bulk_discounts/:discount_id", to: "bulk_discounts#destroy"
 end

@@ -111,4 +111,26 @@ RSpec.describe 'merchants invoices show page' do
 
     expect(current_path).to eq("/merchants/#{merchant_1.id}/invoices/#{invoice_1.id}")
   end
+
+  it 'shows the total revenue for the merchant' do
+    # add another merchant 
+      merchant_1 = create(:merchant)
+      customer_1 = create(:customer)
+      item_1 = create(:item, merchant_id: merchant_1.id)
+      invoice_1 = create(:invoice, customer_id: customer_1.id)
+      invoice_item_1 = create(:invoice_item, item_id: item_1.id, invoice_id: invoice_1.id, unit_price: 3, quantity: 1)
+
+      item_2 = create(:item, merchant_id: merchant_1.id)
+      invoice_item_2 = create(:invoice_item, item_id: item_2.id, invoice_id: invoice_1.id, unit_price: 5, quantity: 1)
+
+      item_3 = create(:item, merchant_id: merchant_1.id)
+      invoice_item_3 = create(:invoice_item, item_id: item_3.id, invoice_id: invoice_1.id, unit_price: 4, quantity: 2)
+
+      expect(invoice_1.total_revenue).to eq(16)
+    end
+  end
+
+  it 'shows the total discounted revenue for the merchant' do
+
+  end
 end
