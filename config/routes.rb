@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   resources :merchants, only: [] do
     resources :invoices, only: %i[index show update]
     resources :merchant_items, only: %i[index new show create edit update]
-    resources :bulk_discounts, only: %i[index show new]
+    resources :bulk_discounts, only: %i[index show new edit update]
   end
 
   namespace :admin do
@@ -19,4 +19,5 @@ Rails.application.routes.draw do
   resources :github_api, only: [:index]
 
   post "/merchants/:id/bulk_discounts/new", to: "bulk_discounts#create"
+  delete "/merchants/:id/bulk_discounts/:discount_id", to: "bulk_discounts#destroy"
 end
