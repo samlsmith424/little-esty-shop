@@ -1,6 +1,7 @@
 class Invoice < ApplicationRecord
   belongs_to :customer
   has_many :invoice_items, dependent: :destroy
+  has_many :items, through: :invoice_items
   has_many :transactions
   validates :customer_id, presence: true
   validates :status, presence: true
@@ -15,6 +16,9 @@ class Invoice < ApplicationRecord
 
   def total_revenue
     invoice_items.sum('invoice_items.unit_price * invoice_items.quantity')
+  end
+
+  def discount_revenue
   end
 
   def self.incomplete_invoices

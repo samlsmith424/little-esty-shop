@@ -5,10 +5,12 @@ RSpec.describe Invoice, type: :model do
     it { should validate_presence_of :customer_id }
     it { should validate_presence_of :status }
   end
+  
   describe 'relationships' do
-    it { should have_many :invoice_items }
-    it { should have_many :transactions }
     it { should belong_to :customer }
+    it { should have_many :invoice_items }
+    it { should have_many(:items).through(:invoice_items) }
+    it { should have_many :transactions }
   end
 
   describe 'instance methods' do
@@ -35,8 +37,21 @@ RSpec.describe Invoice, type: :model do
 
         expect(invoice_1.total_revenue).to eq(16)
       end
+
+      # it 'shows no total discounted revenue if items and quantity do not meet criteria' do
+      #   merchant_1 = create(:merchant)
+      #   customer_1 = create(:customer)
+      #   bulk_disc_1 = create(:bulk_discount, merchant_id: merchant_1.id, threshold: 15, discount_percent: 20 )
+      #   item_1 = create(:item, merchant_id: merchant_1.id)
+      #   invoice_1 = create(:invoice, customer_id: customer_1.id)
+      #   invoice_item_1 = create(:invoice_item, item_id: item_1.id, invoice_id: invoice_1.id, unit_price: 5, quantity: 1)
+      #
+      #   expect(invoice_1.total_revenue).to eq(5)
+      #   expect(invoice_1.discount_revenue).to eq(5)
+      # end
     end
   end
+
   describe 'class methods' do
     it '#incomplete_invoices' do
       invoice_1 = create(:invoice)

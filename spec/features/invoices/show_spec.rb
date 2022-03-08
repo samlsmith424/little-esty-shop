@@ -113,24 +113,38 @@ RSpec.describe 'merchants invoices show page' do
   end
 
   it 'shows the total revenue for the merchant' do
-    # add another merchant
-      merchant_1 = create(:merchant)
-      customer_1 = create(:customer)
-      item_1 = create(:item, merchant_id: merchant_1.id)
-      invoice_1 = create(:invoice, customer_id: customer_1.id)
-      invoice_item_1 = create(:invoice_item, item_id: item_1.id, invoice_id: invoice_1.id, unit_price: 3, quantity: 1)
+    merchant_1 = create(:merchant)
+    customer_1 = create(:customer)
+    item_1 = create(:item, merchant_id: merchant_1.id)
+    invoice_1 = create(:invoice, customer_id: customer_1.id)
+    invoice_item_1 = create(:invoice_item, item_id: item_1.id, invoice_id: invoice_1.id, unit_price: 3, quantity: 1)
 
-      item_2 = create(:item, merchant_id: merchant_1.id)
-      invoice_item_2 = create(:invoice_item, item_id: item_2.id, invoice_id: invoice_1.id, unit_price: 5, quantity: 1)
+    item_2 = create(:item, merchant_id: merchant_1.id, unit_price: 5)
+    invoice_item_2 = create(:invoice_item, item_id: item_2.id, invoice_id: invoice_1.id, unit_price: 5, quantity: 1)
 
-      item_3 = create(:item, merchant_id: merchant_1.id)
-      invoice_item_3 = create(:invoice_item, item_id: item_3.id, invoice_id: invoice_1.id, unit_price: 4, quantity: 2)
+    item_3 = create(:item, merchant_id: merchant_1.id, unit_price: 4)
+    invoice_item_3 = create(:invoice_item, item_id: item_3.id, invoice_id: invoice_1.id, unit_price: 4, quantity: 2)
 
-      expect(invoice_1.total_revenue).to eq(16)
-    end
+    merchant_2 = create(:merchant)
+    customer_2 = create(:customer)
+    item_4 = create(:item, merchant_id: merchant_2.id, unit_price: 3)
+    invoice_4 = create(:invoice, customer_id: customer_1.id)
+    invoice_item_4 = create(:invoice_item, item_id: item_4.id, invoice_id: invoice_4.id, unit_price: 3, quantity: 1)
+
+    expect(invoice_1.total_revenue).to eq(16)
   end
 
-  # it 'shows the total discounted revenue for the merchant' do
+  xit 'shows the total discounted revenue for the merchant' do
+    merchant_1 = create(:merchant)
+    customer_1 = create(:customer)
+    bulk_disc_1 = create(:bulk_discount, merchant_id: merchant_1.id, threshold: 150000, discount_percent: 60 )
+    # item_1 = create(:item, merchant_id: merchant_1.id)
+    # invoice_1 = create(:invoice, customer_id: customer_1.id)
 
-# end
-# end
+    item_2 = create(:item, merchant_id: merchant_1.id)
+    invoice_item_2 = create(:invoice_item, item_id: item_2.id, invoice_id: invoice_1.id, unit_price: 5, quantity: 1)
+
+
+  end
+
+end

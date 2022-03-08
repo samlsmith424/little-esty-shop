@@ -1,6 +1,7 @@
 class InvoiceItem < ApplicationRecord
   belongs_to :invoice
   belongs_to :item
+  has_one :merchant, through: :item 
 
   validates :item_id, presence: true, numericality: true
   validates :invoice_id, presence: true, numericality: true
