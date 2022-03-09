@@ -18,9 +18,6 @@ class Invoice < ApplicationRecord
     invoice_items.sum('invoice_items.unit_price * invoice_items.quantity')
   end
 
-  def discount_revenue
-  end
-
   def self.incomplete_invoices
     joins(:invoice_items)
       .where(invoice_items: { status: [0, 1] })

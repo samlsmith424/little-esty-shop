@@ -131,20 +131,21 @@ RSpec.describe 'merchants invoices show page' do
     invoice_4 = create(:invoice, customer_id: customer_1.id)
     invoice_item_4 = create(:invoice_item, item_id: item_4.id, invoice_id: invoice_4.id, unit_price: 3, quantity: 1)
 
+    visit "/merchants/#{merchant_1.id}/invoices/#{invoice_1.id}"
+
     expect(invoice_1.total_revenue).to eq(16)
   end
 
-  xit 'shows the total discounted revenue for the merchant' do
+  it 'shows total discounted revenue' do
     merchant_1 = create(:merchant)
     customer_1 = create(:customer)
-    bulk_disc_1 = create(:bulk_discount, merchant_id: merchant_1.id, threshold: 150000, discount_percent: 60 )
-    # item_1 = create(:item, merchant_id: merchant_1.id)
-    # invoice_1 = create(:invoice, customer_id: customer_1.id)
+    bulk_disc_1 = create(:bulk_discount, merchant_id: merchant_1.id, threshold: 5, discount_percent: 20 )
+    item_1 = create(:item, merchant_id: merchant_1.id)
+    invoice_1 = create(:invoice, customer_id: customer_1.id)
+    invoice_item_1 = create(:invoice_item, item_id: item_1.id, invoice_id: invoice_1.id, unit_price: 1, quantity: 5)
 
-    item_2 = create(:item, merchant_id: merchant_1.id)
-    invoice_item_2 = create(:invoice_item, item_id: item_2.id, invoice_id: invoice_1.id, unit_price: 5, quantity: 1)
+    visit "/merchants/#{merchant_1.id}/invoices/#{invoice_1.id}"
 
-
+    expect(merchant_1.invoice_items.discount_revenue).to eq(4.0)
   end
-
 end
